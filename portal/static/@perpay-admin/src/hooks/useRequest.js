@@ -1,7 +1,5 @@
-import { getActionObservable, getStateObservable } from '/@perpay-admin/src/lib/react-observable';
-import { useReducer, useEffect } from '/@perpay-admin/dependencies/react';
-import { merge, mergeAll } from '/@perpay-admin/dependencies/rxjs';
 // Data modules but as a hook
+import { useMiddlewareReducer } from '/@perpay-admin/src/hooks/useMiddlewareReducer';
 
 export const UNREQUESTED_STATE = 'unrequested';
 export const LOADING_STATE = 'loading';
@@ -72,48 +70,10 @@ const dataReset = () => ({
     type: RESET_ACTION,
 });
 
-const logger = () => (store) => (next) => (action) => {
-    const prevState = store.getState();
-    const nextState = next(action);
-    console.log('prevState', prevState, 'action', action, 'nextState', nextState);
-};
-
-export const useRequest = (sideEffects = []) => {
-    const [ state, rawDispatch ] = useReducer(requestReducer, getInitialState());
-
-    const { action$, nextAction } = getActionObservable();
-    const { state$, nextState } = getStateObservable();
-
-    const dispatch = (action) => {
-        const store = {
-            getState: () => state,
-            dispatch: rawDispatch,
-        };
-
-        const next = (action) => {
-
-            // HACK
-            const newState = requestReducer(state, action);
-
-            nextState(newState);
-            nextAction(action);
-
-            rawDispatch(action);
-            return newState;
-        };
-
-        logger()(store)(next)(action);
-    };
-
-    useEffect(() => {
-        const epic$ = merge(sideEffects.map((sideEffect) => sideEffect(action$, state$))).pipe(mergeAll());
-        epic$.subscribe(dispatch);
-    }, []);
+export const useRequest = (middlewares = []) => {
+    const [ state, dispatch ] = useMiddlewareReducer(requestReducer, getInitialState(), middlewares);
 
     return {
-        action$,
-        state$,
-
         dispatch,
 
         dataRequest,

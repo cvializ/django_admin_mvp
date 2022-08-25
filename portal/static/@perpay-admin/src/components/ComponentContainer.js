@@ -1,30 +1,22 @@
 import { Component } from '/@perpay-admin/src/components/Component';
-import { useRequest } from '/@perpay-admin/src/hooks/useRequest';
+import { useReactObservableRequest } from '/@perpay-admin/src/hooks/useReactObservableRequest';
 import { html } from '/@perpay-admin/dependencies/htm';
-import {
-    of,
-    concat,
-} from '/@perpay-admin/dependencies/rxjs';
-import {
-    mergeMap,
-    catchError,
-    tap,
-} from '/@perpay-admin/dependencies/rxjs-operators';
-import { ofType } from '/@perpay-admin/src/lib/react-observable';
-
+import { mergeMap } from '/@perpay-admin/dependencies/rxjs-operators';
+import { handleError, ofType } from '/@perpay-admin/src/lib/react-observable';
+import { useCallback, useEffect } from '/@perpay-admin/dependencies/react';
+import { useRequest } from '/@perpay-admin/src/hooks/useRequest';
+import { switchMap } from '/@perpay-admin/dependencies/rxjs';
 
 export const ComponentContainer = ({ ...rest }) => {
     const epic = (action$) =>
         action$.pipe(
             ofType(dataRequest().type),
-            mergeMap(() => fetch('.')),
-            mergeMap((x) => {
-                return [dataSuccess({ foo: 'Bar' })];
-            }),
-            catchError((error, source$) => {
-                return concat(of(dataError(error)), source$);
-            }),
+            switchMap(() => fetch('./index.html').then(response => response.text())),
+            mergeMap((x) => [dataSuccess({ foo: x })]),
+            handleError((error) => [dataError(error)]),
         );
+
+    const { epic$, epicMiddleware } = useReactObservableRequest([epic]);
 
     const {
         dispatch,
@@ -32,12 +24,14 @@ export const ComponentContainer = ({ ...rest }) => {
         dataError,
         dataSuccess,
         dataReset,
-        getIsUnrequested,
         getIsLoading,
-        getIsLoadingOrUnrequested,
         getData,
         getErrors,
-    } = useRequest([epic]);
+    } = useRequest([epicMiddleware]);
+
+    useEffect(() => {
+        epic$.subscribe(dispatch);
+    }, []);
 
     return html`
         <${Component}

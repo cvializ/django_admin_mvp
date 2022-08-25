@@ -26,7 +26,7 @@
 
         return html`
             <div className="${styles.app}">
-                <${Header} name="ToDo's (${color})" />
+                <${Header} name="Color (${color})" />
                 <${ComponentContainer} color=${color} />
                 <${ComponentContainer} color="rebeccapurple" />
                 <input value=${color} onChange=${e => setColor(e.target.value)} />

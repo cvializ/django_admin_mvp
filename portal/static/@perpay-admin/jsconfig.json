@@ -3,8 +3,8 @@
         "baseUrl": ".",
         "paths": {
             "/@perpay-admin/src/*": ["./src/*"],
-            "/@perpay-web/dependencies/*": ["./dependencies/*"],
-            "/@perpay-web/vendors/*": ["./vendors/*"],
+            "/@perpay-admin/dependencies/*": ["./dependencies/*"],
+            "/@perpay-admin/vendors/*": ["./vendors/*"],
         },
     },
     "include": ["src/**/*", "dependencies/**/*"],
