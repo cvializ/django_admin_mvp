@@ -3,6 +3,7 @@ import { useReactObservableRequest } from '/@perpay-admin/src/hooks/useReactObse
 import { html } from '/@perpay-admin/dependencies/htm';
 import { mergeMap } from '/@perpay-admin/dependencies/rxjs-operators';
 import { handleError, ofType } from '/@perpay-admin/src/lib/react-observable';
+import { useConstCallback } from '/@perpay-admin/src/hooks/useConstCallback';
 
 export const ComponentContainer = ({ ...rest }) => {
     const epic = (action$) => action$.pipe(
@@ -23,12 +24,17 @@ export const ComponentContainer = ({ ...rest }) => {
         getErrors,
     } = useReactObservableRequest([epic]);
 
+    const onClickRequestCb = useConstCallback(() => dispatch(dataRequest()));
+    const onClickSuccessCb = useConstCallback(() => dispatch(dataSuccess('bar')));
+    const onClickErrorCb = useConstCallback(() => dispatch(dataError({ message: ['Sad : ('] })));
+    const onClickResetCb = useConstCallback(() => dispatch(dataReset()));
+
     return html`
         <${Component}
-            onClickRequest=${() => dispatch(dataRequest())}
-            onClickSuccess=${() => dispatch(dataSuccess('bar'))}
-            onClickError=${() => dispatch(dataError({ message: ['Sad : ('] }))}
-            onClickReset=${() => dispatch(dataReset())}
+            onClickRequest=${onClickRequestCb}
+            onClickSuccess=${onClickSuccessCb}
+            onClickError=${onClickErrorCb}
+            onClickReset=${onClickResetCb}
             data=${getData()}
             loading=${getIsLoading()}
             errors=${getErrors()}

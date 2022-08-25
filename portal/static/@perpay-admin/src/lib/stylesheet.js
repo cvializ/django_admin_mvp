@@ -5,7 +5,7 @@ import '/@perpay-admin/vendors/sanitizer-polyfill';
 const getMatches = (regex, value) => (value.match(regex) || []);
 
 // This is a not-very-good way of extracting classnames from CSS selector text.
-const classNameRegex = /\.[^., \\*@#>\[\]{}]+/g;
+const classNameRegex = /\.[^., \\*@#>[]{}]+/g;
 
 export const getClassNames = (ruleText) => {
     const matches = getMatches(classNameRegex, ruleText);
@@ -22,30 +22,19 @@ export const stylesheetFromTemplate = (css) => {
     const style = sanitizer.sanitizeFor('style', css);
 
     // The sheet property on style elements is only populated after the
-    // element is inserted into a document. So we must create a temporary
+    // element is inserted into a globalThis.document. So we must create a temporary
     // document to avoid a flash of styles if we make changes to the
     // stylesheet returned here.
-    const tempDoc = document.implementation.createHTMLDocument();
+    const tempDoc = globalThis.document.implementation.createHTMLDocument();
     tempDoc.body.appendChild(style);
 
     return style.sheet;
 };
 
-export const createEmptyStylesheet = () => new CSSStyleSheet();
-
-let rootStyleNode = null;
-
-const getStyleSingleton = (parent = document.body) => {
-    if (!rootStyleNode) {
-        rootStyleNode = document.createElement('style');
-        parent.appendChild(rootStyleNode);
-    }
-
-    return rootStyleNode;
-};
+export const createEmptyStylesheet = () => new globalThis.CSSStyleSheet();
 
 export const mergeStylesheets = (...sheets) => {
-    const style = document.createElement('style');
+    const style = globalThis.document.createElement('style');
 
     for (let i = 0; i < sheets.length; i++) {
         for (let j = 0; j < sheets[i].cssRules.length; j++) {
@@ -57,7 +46,7 @@ export const mergeStylesheets = (...sheets) => {
 };
 
 export const scopeStyleSheet = (scope, specifier, sheet) => {
-    const newStyle = document.createElement('style');
+    const newStyle = globalThis.document.createElement('style');
 
     for (let i = 0; i < sheet.cssRules.length; i++) {
         const rule = sheet.cssRules[i];
@@ -74,19 +63,30 @@ export const scopeStyleSheet = (scope, specifier, sheet) => {
     return newStyle;
 };
 
-// A collection of rules. Can be rendered to a style tag
-class StyleSheet {
-    constructor(sheet) {
-        this.rules = [...sheet.cssRules];
-    }
+// // A collection of rules. Can be rendered to a style tag
+// class StyleSheet {
+//     constructor(sheet) {
+//         this.rules = [...sheet.cssRules];
+//     }
 
-    render() {
-        const style = document.createElement('style');
+//     render() {
+//         const style = globalThis.document.createElement('style');
 
-        this.rules.forEach((rule) => {
-            style.innerText += rule.cssText;
-        });
+//         this.rules.forEach((rule) => {
+//             style.innerText += rule.cssText;
+//         });
 
-        return style;
-    }
-}
+//         return style;
+//     }
+// }
+
+// let rootStyleNode = null;
+
+// const getStyleSingleton = (parent = globalThis.document.body) => {
+//     if (!rootStyleNode) {
+//         rootStyleNode = globalThis.document.createElement('style');
+//         parent.appendChild(rootStyleNode);
+//     }
+
+//     return rootStyleNode;
+// };

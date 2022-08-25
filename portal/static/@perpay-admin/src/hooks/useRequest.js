@@ -47,7 +47,10 @@ const requestReducer = (state = getInitialState(), action = {}) => {
 const getRoot = (state) => state;
 const getIsUnrequested = (state) => getRoot(state).requestState === UNREQUESTED_STATE;
 const getIsLoading = (state) => getRoot(state).requestState === LOADING_STATE;
-const getIsLoadingOrUnrequested = (state) => [UNREQUESTED_STATE, LOADING_STATE].includes(getRoot(state).requestState);
+const getIsLoadingOrUnrequested = (state) => [
+    UNREQUESTED_STATE,
+    LOADING_STATE,
+].includes(getRoot(state).requestState);
 const getData = (state) => getRoot(state).value;
 const getErrors = (state) => getRoot(state).errors;
 
@@ -71,7 +74,11 @@ const dataReset = () => ({
 });
 
 export const useRequest = (middlewares = []) => {
-    const [state, dispatch] = useMiddlewareReducer(requestReducer, getInitialState(), middlewares);
+    const [state, dispatch] = useMiddlewareReducer(
+        requestReducer,
+        getInitialState(),
+        middlewares,
+    );
 
     return {
         dispatch,

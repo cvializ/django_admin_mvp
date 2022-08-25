@@ -10,11 +10,11 @@ export const useMiddlewareReducer = (reducer, initialState, middlewares = []) =>
             dispatch: rawDispatch,
         };
 
-        const next = (action) => {
+        const next = (innerAction) => {
             // HACK because React updates the reducer async
-            const expectedNextState = reducer(state, action);
+            const expectedNextState = reducer(state, innerAction);
 
-            rawDispatch(action);
+            rawDispatch(innerAction);
             return expectedNextState;
         };
 

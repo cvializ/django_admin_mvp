@@ -11,11 +11,15 @@ export const useReactObservableRequest = (sideEffects = []) => {
     const dispatchRef = useRef(() => {});
 
     useMount(() => {
-        const epic$ = defer(() => merge(sideEffects.map((sideEffect) => sideEffect(action$, state$))).pipe(mergeAll()));
+
+        const epic$ = defer(() => merge(sideEffects.map(
+            (sideEffect) => sideEffect(action$, state$),
+        )).pipe(mergeAll()));
+
         epic$.subscribe((action) => dispatchRef.current(action));
     });
 
-    const middleware = () => (store) => (next) => (action) => {
+    const middleware = () => (/* store */) => (next) => (action) => {
         const newState = next(action);
 
         nextState(newState);

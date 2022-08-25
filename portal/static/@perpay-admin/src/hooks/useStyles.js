@@ -4,6 +4,7 @@ import { useInitialValue } from '/@perpay-admin/src/hooks/useInitialValue';
 import { useRunOnce } from '/@perpay-admin/src/hooks/useRunOnce';
 import { useInstanceIdentifier } from '/@perpay-admin/src/hooks/useInstanceIdentifier';
 import { getClassNames, stylesheetFromTemplate, scopeStyleSheet } from '/@perpay-admin/src/lib/stylesheet';
+import { useConstCallback } from '/@perpay-admin/src/hooks/useConstCallback';
 
 export const useStyles = (scope, css) => {
     const classMappingRef = useRef({});
@@ -13,14 +14,18 @@ export const useStyles = (scope, css) => {
 
     // const { getSheet, setSheet } = useStyleSheet();
 
-    const doIt = (css, initialScope) => {
+    const doItCb = useConstCallback((innerCss, innerInitialScope) => {
         let classNames = [initialScope];
 
         // new sheet
-        const sheet = stylesheetFromTemplate(css);
+        const sheet = stylesheetFromTemplate(innerCss);
 
         // sheet scope
-        const newStyle = scopeStyleSheet(initialScope, `${initialScope}__${uniqueId}`, sheet);
+        const newStyle = scopeStyleSheet(
+            innerInitialScope,
+            `${innerInitialScope}__${uniqueId}`,
+            sheet,
+        );
 
         for (let i = 0; i < sheet.cssRules.length; i++) {
             const rule = sheet.cssRules[i];
@@ -30,7 +35,7 @@ export const useStyles = (scope, css) => {
         const uniqueClassNames = [...new Set(classNames)];
         const classMapping = Object.fromEntries(uniqueClassNames.map((c) => {
             const key = c;
-            const value = c === initialScope ? `${c} ${c}__${uniqueId}` : c;
+            const value = c === innerInitialScope ? `${c} ${c}__${uniqueId}` : c;
 
             return [key, value];
         }));
@@ -41,12 +46,12 @@ export const useStyles = (scope, css) => {
         // commit changes
         wrapperRef.current.innerHTML = '';
         wrapperRef.current.appendChild(newStyle);
-        document.body.appendChild(wrapperRef.current);
-    };
+        globalThis.document.body.appendChild(wrapperRef.current);
+    });
 
     useRunOnce(() => {
         wrapperRef.current = globalThis.document.createElement('div');
-        doIt(css, initialScope);
+        doItCb(css, initialScope);
     });
 
     useEffect(() => {
@@ -55,10 +60,10 @@ export const useStyles = (scope, css) => {
         }
         const wrapper = wrapperRef.current;
 
-        doIt(css, initialScope);
+        doItCb(css, initialScope);
 
         return () => globalThis.document.body.removeChild(wrapper);
-    }, [css, initialScope]);
+    }, [css, initialScope, doItCb]);
 
     return {
         styles: classMappingRef.current,

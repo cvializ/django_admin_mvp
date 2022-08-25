@@ -288,8 +288,8 @@
       var suffix = null;
       var ATTR_NAME = 'data-tt-policy-suffix';
 
-      if (document.currentScript && document.currentScript.hasAttribute(ATTR_NAME)) {
-        suffix = document.currentScript.getAttribute(ATTR_NAME);
+      if (document.currentScript && globalThis.document.currentScript.hasAttribute(ATTR_NAME)) {
+        suffix = globalThis.document.currentScript.getAttribute(ATTR_NAME);
       }
 
       var policyName = 'dompurify' + (suffix ? '#' + suffix : '');
@@ -363,7 +363,7 @@
       // is inherited.
 
       if (typeof HTMLTemplateElement === 'function') {
-        var template = document.createElement('template');
+        var template = globalThis.document.createElement('template');
 
         if (template.content && template.content.ownerDocument) {
           document = template.content.ownerDocument;
@@ -382,7 +382,7 @@
       var documentMode = {};
 
       try {
-        documentMode = clone(document).documentMode ? document.documentMode : {};
+        documentMode = clone(document).documentMode ? globalThis.document.documentMode : {};
       } catch (_) {}
 
       var hooks = {};
@@ -465,7 +465,7 @@
 
       var SET_CONFIG = false;
       /* Decide if all elements (e.g. style, script) must be children of
-       * document.body. By default, browsers might move them to document.head */
+       * globalThis.document.body. By default, browsers might move them to globalThis.document.head */
 
       var FORCE_BODY = false;
       /* Decide if a DOM `HTMLBodyElement` should be returned, instead of a html
@@ -527,7 +527,7 @@
 
       /* ______________________________________________ */
 
-      var formElement = document.createElement('form');
+      var formElement = globalThis.document.createElement('form');
 
       var isRegexOrFunction = function isRegexOrFunction(testValue) {
         return testValue instanceof RegExp || testValue instanceof Function;
@@ -2216,7 +2216,7 @@
           Object.assign(this, {
             sanitizeFor(localName, input) {
               // The inactive document does not issue requests and does not execute scripts.
-              const inactiveDocument = document.implementation.createHTMLDocument();
+              const inactiveDocument = globalThis.document.implementation.createHTMLDocument();
               if (!DEFAULT_ALLOWED_ELEMENTS.has(localName)) {
                 throw new SanitizerError(
                   `${localName} is not an element in built-in default allow list`
@@ -2245,7 +2245,7 @@
           ) {
             sanitizerObj = new Sanitizer();
           }
-          const inactiveDocument = document.implementation.createHTMLDocument();
+          const inactiveDocument = globalThis.document.implementation.createHTMLDocument();
           const context = inactiveDocument.createElement(this.localName);
           context.innerHTML = input;
           sanitizeDocFragment(sanitizerObj.getConfiguration(), context);

@@ -36,7 +36,9 @@ export const getActionObservable = () => {
     };
 };
 
-export const ofType = (outerActionType) => filter((innerAction) => innerAction.type === outerActionType);
+export const ofType = (outerActionType) => filter(
+    (innerAction) => innerAction.type === outerActionType,
+);
 
 export const handleError = (cb, source$) => catchError((error) => {
     const result = cb(error);
@@ -48,5 +50,5 @@ export const handleError = (cb, source$) => catchError((error) => {
         errorAction$ = Array.isArray(result) ? from(result) : of(result);
     }
 
-    return concat(result, source$);
+    return concat(errorAction$, source$);
 });
