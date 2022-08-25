@@ -48,19 +48,19 @@ export const useStyles = (scope, css) => {
     };
 
     useRunOnce(() => {
-        wrapperRef.current = document.createElement('div');
+        wrapperRef.current = globalThis.document.createElement('div');
         doIt(css, initialScope);
     });
 
     useEffect(() => {
         if (!wrapperRef.current) {
-            wrapperRef.current = document.createElement('div');
+            wrapperRef.current = globalThis.document.createElement('div');
         }
         const wrapper = wrapperRef.current;
 
         doIt(css, initialScope);
 
-        return () => document.body.removeChild(wrapper);
+        return () => globalThis.document.body.removeChild(wrapper);
     }, [css, initialScope]);
 
     return {

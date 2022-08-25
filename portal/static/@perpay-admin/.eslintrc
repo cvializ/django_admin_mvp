@@ -1,0 +1,29 @@
+{
+    "plugins": [
+      // ...
+        "lit"
+    ],
+    "rules": {
+        // ...
+        "lit/no-legacy-template-syntax": "error",
+        "lit/no-template-arrow": "warn",
+        "indent": ["error", 4],
+
+        "import/prefer-default-export": 0,
+        "import/no-absolute-path": 0
+    },
+    "extends": [
+        "airbnb",
+        "airbnb/hooks"
+    ],
+    "globals": {
+        "globalThis": "readonly"
+    },
+    "settings": {
+        "import/resolver": {
+            "jsconfig": {
+                "config": "jsconfig.json"
+            }
+        }
+    }
+}

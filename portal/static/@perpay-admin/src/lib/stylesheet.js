@@ -12,7 +12,7 @@ export const getClassNames = (ruleText) => {
     return matches.map(c => c.replace('.', ''));
 };
 
-const sanitizer = new window.Sanitizer();
+const sanitizer = new globalThis.Sanitizer();
 
 export const stylesheetFromTemplate = (css) => {
     // The Sanitizer API is not yet standard, so we polyfill it.

@@ -15,7 +15,7 @@ export const App = () => {
         h1 {
             color: red;
         }
-    `)
+    `);
 
     return html`
         <div className="${styles.app}">

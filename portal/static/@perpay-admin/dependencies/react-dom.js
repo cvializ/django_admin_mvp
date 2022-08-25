@@ -1,27 +1,27 @@
 import '/@perpay-admin/node_modules/react-dom/umd/react-dom.development';
 
-export default window.ReactDOM;
+export default globalThis.ReactDOM;
 
-export const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = window.ReactDOM.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+export const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = globalThis.ReactDOM.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 
-export const createPortal = window.ReactDOM.createPortal;
+export const createPortal = globalThis.ReactDOM.createPortal;
 
-export const createRoot = window.ReactDOM.createRoot;
+export const createRoot = globalThis.ReactDOM.createRoot;
 
-export const findDOMNode = window.ReactDOM.findDOMNode;
+export const findDOMNode = globalThis.ReactDOM.findDOMNode;
 
-export const flushSync = window.ReactDOM.flushSync;
+export const flushSync = globalThis.ReactDOM.flushSync;
 
-export const hydrate = window.ReactDOM.hydrate;
+export const hydrate = globalThis.ReactDOM.hydrate;
 
-export const hydrateRoot = window.ReactDOM.hydrateRoot;
+export const hydrateRoot = globalThis.ReactDOM.hydrateRoot;
 
-export const render = window.ReactDOM.render;
+export const render = globalThis.ReactDOM.render;
 
-export const unmountComponentAtNode = window.ReactDOM.unmountComponentAtNode;
+export const unmountComponentAtNode = globalThis.ReactDOM.unmountComponentAtNode;
 
-export const unstable_batchedUpdates = window.ReactDOM.unstable_batchedUpdates;
+export const unstable_batchedUpdates = globalThis.ReactDOM.unstable_batchedUpdates;
 
-export const unstable_renderSubtreeIntoContainer = window.ReactDOM.unstable_renderSubtreeIntoContainer;
+export const unstable_renderSubtreeIntoContainer = globalThis.ReactDOM.unstable_renderSubtreeIntoContainer;
 
-export const version = window.ReactDOM.version;
+export const version = globalThis.ReactDOM.version;

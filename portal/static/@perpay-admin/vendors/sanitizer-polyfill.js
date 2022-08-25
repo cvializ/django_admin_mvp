@@ -1,3 +1,4 @@
+// eslint-disable
 (function () {
     'use strict';
 
@@ -331,25 +332,25 @@
 
       DOMPurify.removed = [];
 
-      if (!window || !window.document || window.document.nodeType !== 9) {
+      if (!window || !globalThis.document || globalThis.document.nodeType !== 9) {
         // Not running in a browser, provide a factory function
         // so that you can pass your own Window
         DOMPurify.isSupported = false;
         return DOMPurify;
       }
 
-      var originalDocument = window.document;
-      var document = window.document;
-      var DocumentFragment = window.DocumentFragment,
-          HTMLTemplateElement = window.HTMLTemplateElement,
-          Node = window.Node,
-          Element = window.Element,
-          NodeFilter = window.NodeFilter,
-          _window$NamedNodeMap = window.NamedNodeMap,
-          NamedNodeMap = _window$NamedNodeMap === void 0 ? window.NamedNodeMap || window.MozNamedAttrMap : _window$NamedNodeMap,
-          HTMLFormElement = window.HTMLFormElement,
-          DOMParser = window.DOMParser,
-          trustedTypes = window.trustedTypes;
+      var originalDocument = globalThis.document;
+      var document = globalThis.document;
+      var DocumentFragment = globalThis.DocumentFragment,
+          HTMLTemplateElement = globalThis.HTMLTemplateElement,
+          Node = globalThis.Node,
+          Element = globalThis.Element,
+          NodeFilter = globalThis.NodeFilter,
+          _window$NamedNodeMap = globalThis.NamedNodeMap,
+          NamedNodeMap = _window$NamedNodeMap === void 0 ? globalThis.NamedNodeMap || globalThis.MozNamedAttrMap : _window$NamedNodeMap,
+          HTMLFormElement = globalThis.HTMLFormElement,
+          DOMParser = globalThis.DOMParser,
+          trustedTypes = globalThis.trustedTypes;
       var ElementPrototype = Element.prototype;
       var cloneNode = lookupGetter(ElementPrototype, 'cloneNode');
       var getNextSibling = lookupGetter(ElementPrototype, 'nextSibling');
@@ -1373,13 +1374,13 @@
 
 
         if (!DOMPurify.isSupported) {
-          if (_typeof(window.toStaticHTML) === 'object' || typeof window.toStaticHTML === 'function') {
+          if (_typeof(globalThis.toStaticHTML) === 'object' || typeof globalThis.toStaticHTML === 'function') {
             if (typeof dirty === 'string') {
-              return window.toStaticHTML(dirty);
+              return globalThis.toStaticHTML(dirty);
             }
 
             if (_isNode(dirty)) {
-              return window.toStaticHTML(dirty.outerHTML);
+              return globalThis.toStaticHTML(dirty.outerHTML);
             }
           }
 
@@ -2200,7 +2201,7 @@
       if (typeof window === "undefined") {
         return;
       }
-      if (window.isSecureContext) {
+      if (globalThis.isSecureContext) {
         // don't polyfill if already defined
         if (
           typeof window[GLOBALNAME] === "function" &&

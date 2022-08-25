@@ -1,73 +1,73 @@
 import '/@perpay-admin/node_modules/react/umd/react.development';
 
-export default window.React;
+export default globalThis.React;
 
-export const Children = window.React.Children;
+export const Children = globalThis.React.Children;
 
-export const Component = window.React.Component;
+export const Component = globalThis.React.Component;
 
-export const Fragment = window.React.Fragment;
+export const Fragment = globalThis.React.Fragment;
 
-export const Profiler = window.React.Profiler;
+export const Profiler = globalThis.React.Profiler;
 
-export const PureComponent = window.React.PureComponent;
+export const PureComponent = globalThis.React.PureComponent;
 
-export const StrictMode = window.React.StrictMode;
+export const StrictMode = globalThis.React.StrictMode;
 
-export const Suspense = window.React.Suspense;
+export const Suspense = globalThis.React.Suspense;
 
-export const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = window.React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+export const __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = globalThis.React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 
-export const cloneElement = window.React.cloneElement;
+export const cloneElement = globalThis.React.cloneElement;
 
-export const createContext = window.React.createContext;
+export const createContext = globalThis.React.createContext;
 
-export const createElement = window.React.createElement;
+export const createElement = globalThis.React.createElement;
 
-export const createFactory = window.React.createFactory;
+export const createFactory = globalThis.React.createFactory;
 
-export const createRef = window.React.createRef;
+export const createRef = globalThis.React.createRef;
 
-export const forwardRef = window.React.forwardRef;
+export const forwardRef = globalThis.React.forwardRef;
 
-export const isValidElement = window.React.isValidElement;
+export const isValidElement = globalThis.React.isValidElement;
 
-export const lazy = window.React.lazy;
+export const lazy = globalThis.React.lazy;
 
-export const memo = window.React.memo;
+export const memo = globalThis.React.memo;
 
-export const startTransition = window.React.startTransition;
+export const startTransition = globalThis.React.startTransition;
 
-export const unstable_act = window.React.unstable_act;
+export const unstable_act = globalThis.React.unstable_act;
 
-export const useCallback = window.React.useCallback;
+export const useCallback = globalThis.React.useCallback;
 
-export const useContext = window.React.useContext;
+export const useContext = globalThis.React.useContext;
 
-export const useDebugValue = window.React.useDebugValue;
+export const useDebugValue = globalThis.React.useDebugValue;
 
-export const useDeferredValue = window.React.useDeferredValue;
+export const useDeferredValue = globalThis.React.useDeferredValue;
 
-export const useEffect = window.React.useEffect;
+export const useEffect = globalThis.React.useEffect;
 
-export const useId = window.React.useId;
+export const useId = globalThis.React.useId;
 
-export const useImperativeHandle = window.React.useImperativeHandle;
+export const useImperativeHandle = globalThis.React.useImperativeHandle;
 
-export const useInsertionEffect = window.React.useInsertionEffect;
+export const useInsertionEffect = globalThis.React.useInsertionEffect;
 
-export const useLayoutEffect = window.React.useLayoutEffect;
+export const useLayoutEffect = globalThis.React.useLayoutEffect;
 
-export const useMemo = window.React.useMemo;
+export const useMemo = globalThis.React.useMemo;
 
-export const useReducer = window.React.useReducer;
+export const useReducer = globalThis.React.useReducer;
 
-export const useRef = window.React.useRef;
+export const useRef = globalThis.React.useRef;
 
-export const useState = window.React.useState;
+export const useState = globalThis.React.useState;
 
-export const useSyncExternalStore = window.React.useSyncExternalStore;
+export const useSyncExternalStore = globalThis.React.useSyncExternalStore;
 
-export const useTransition = window.React.useTransition;
+export const useTransition = globalThis.React.useTransition;
 
-export const version = window.React.version;
+export const version = globalThis.React.version;
