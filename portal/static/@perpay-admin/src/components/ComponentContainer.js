@@ -9,11 +9,9 @@ export const ComponentContainer = ({ ...rest }) => {
     const epic = (action$) =>
         action$.pipe(
             ofType(dataRequest().type),
-            mergeMap(() => fetch('./index.html').then(response => response.text())),
+            mergeMap(() => fetch('/api/users').then(response => response.text())),
             mergeMap((text) => [dataSuccess(text)]),
-            handleError((error) => {
-                return [dataError(error)];
-            }),
+            handleError((error) => [dataError(error)]),
         );
 
     const {
