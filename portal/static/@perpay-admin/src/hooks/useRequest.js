@@ -1,23 +1,21 @@
 // Data modules but as a hook
-import { useMiddlewareReducer } from '/@perpay-admin/src/hooks/useMiddlewareReducer';
-
-export const UNREQUESTED_STATE = 'unrequested';
-export const LOADING_STATE = 'loading';
-export const SUCCESS_STATE = 'success';
-export const ERROR_STATE = 'error';
+const UNREQUESTED_STATE = 'unrequested';
+const LOADING_STATE = 'loading';
+const SUCCESS_STATE = 'success';
+const ERROR_STATE = 'error';
 
 const REQUEST_ACTION = 'REQUEST_ACTION';
 const ERROR_ACTION = 'ERROR_ACTION';
 const SUCCESS_ACTION = 'SUCCESS_ACTION';
 const RESET_ACTION = 'RESET_ACTION';
 
-export const getInitialState = (optInitialValue) => ({
+export const getInitialRequestState = (optInitialValue) => ({
     requestState: UNREQUESTED_STATE,
     value: optInitialValue,
     errors: {},
 });
 
-const requestReducer = (state = getInitialState(), action = {}) => {
+export const requestReducer = (state = getInitialRequestState(), action = {}) => {
     switch (action.type) {
     case REQUEST_ACTION:
         return {
@@ -38,7 +36,7 @@ const requestReducer = (state = getInitialState(), action = {}) => {
             value: action.payload,
         };
     case RESET_ACTION:
-        return getInitialState();
+        return getInitialRequestState();
     default:
         return state;
     }
@@ -73,25 +71,17 @@ const dataReset = () => ({
     type: RESET_ACTION,
 });
 
-export const useRequest = (middlewares = []) => {
-    const [state, dispatch] = useMiddlewareReducer(
-        requestReducer,
-        getInitialState(),
-        middlewares,
-    );
+export const useRequest = () => ({
+    reducer: requestReducer,
 
-    return {
-        dispatch,
+    dataRequest,
+    dataError,
+    dataSuccess,
+    dataReset,
 
-        dataRequest,
-        dataError,
-        dataSuccess,
-        dataReset,
-
-        getIsUnrequested: () => getIsUnrequested(state),
-        getIsLoading: () => getIsLoading(state),
-        getIsLoadingOrUnrequested: () => getIsLoadingOrUnrequested(state),
-        getData: () => getData(state),
-        getErrors: () => getErrors(state),
-    };
-};
+    getIsUnrequested,
+    getIsLoading,
+    getIsLoadingOrUnrequested,
+    getData,
+    getErrors,
+});

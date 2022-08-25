@@ -1,16 +1,17 @@
 import { Component } from '/@perpay-admin/src/components/Component';
-import { useReactObservableRequest } from '/@perpay-admin/src/hooks/useReactObservableRequest';
 import { html } from '/@perpay-admin/dependencies/htm';
 import { mergeMap } from '/@perpay-admin/dependencies/rxjs-operators';
 import { handleError, ofType } from '/@perpay-admin/src/lib/react-observable';
 import { useConstCallback } from '/@perpay-admin/src/hooks/useConstCallback';
-import { useMount } from '/@perpay-admin/src/hooks/useMount';
+import { getInitialRequestState, useRequest } from '/@perpay-admin/src/hooks/useRequest';
+import { useMiddlewareReducer } from '/@perpay-admin/src/hooks/useMiddlewareReducer';
+import { useReactObservableMiddleware } from '/@perpay-admin/src/hooks/useReactObservableMiddleware';
+
+const fetchUsers = () => globalThis.fetch('/api/users').then((response) => response.text());
 
 export const ComponentContainer = ({ ...rest }) => {
     const {
-        dispatch,
-        nextEpic,
-
+        reducer,
         dataRequest,
         dataError,
         dataSuccess,
@@ -18,15 +19,16 @@ export const ComponentContainer = ({ ...rest }) => {
         getIsLoading,
         getData,
         getErrors,
-    } = useReactObservableRequest();
+    } = useRequest();
 
     const epic = useConstCallback((action$) => action$.pipe(
         ofType(dataRequest().type),
-        mergeMap(() => globalThis.fetch('/api/users').then((response) => response.text())),
+        mergeMap(() => fetchUsers()),
         mergeMap((text) => [dataSuccess(text)]),
         handleError((error) => [dataError(error)]),
     ));
-    useMount(() => nextEpic(epic));
+    const middleware = useReactObservableMiddleware([epic]);
+    const [state, dispatch] = useMiddlewareReducer(reducer, getInitialRequestState(), [middleware]);
 
     const onClickRequestCb = useConstCallback(() => dispatch(dataRequest()));
     const onClickSuccessCb = useConstCallback(() => dispatch(dataSuccess('bar')));
@@ -39,9 +41,9 @@ export const ComponentContainer = ({ ...rest }) => {
             onClickSuccess=${onClickSuccessCb}
             onClickError=${onClickErrorCb}
             onClickReset=${onClickResetCb}
-            data=${getData()}
-            loading=${getIsLoading()}
-            errors=${getErrors()}
+            data=${getData(state)}
+            loading=${getIsLoading(state)}
+            errors=${getErrors(state)}
             ...${rest}
         />
     `;

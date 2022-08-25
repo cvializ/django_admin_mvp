@@ -1,12 +1,10 @@
 import { getActionObservable, getStateObservable } from '/@perpay-admin/src/lib/react-observable';
 import { useRef } from '/@perpay-admin/dependencies/react';
 import { defer, merge, mergeAll } from '/@perpay-admin/dependencies/rxjs';
-import { useRequest } from '/@perpay-admin/src/hooks/useRequest';
 import { useInitialValue } from '/@perpay-admin/src/hooks/useInitialValue';
 import { useMount } from '/@perpay-admin/src/hooks/useMount';
-import { useConstCallback } from '/@perpay-admin/src/hooks/useConstCallback';
 
-export const useReactObservableRequest = (sideEffects = []) => {
+export const useReactObservableMiddleware = (sideEffects = []) => {
     const { action$, nextAction } = useInitialValue(() => getActionObservable());
     const { state$, nextState } = useInitialValue(() => getStateObservable());
     const dispatchRef = useRef(() => {});
@@ -19,24 +17,15 @@ export const useReactObservableRequest = (sideEffects = []) => {
         epic$.subscribe((action) => dispatchRef.current(action));
     });
 
-    const nextEpic = useConstCallback((epic) => {
-        const epic$ = defer(() => epic(action$, state$));
-        epic$.subscribe((action) => dispatchRef.current(action));
-    });
+    const middleware = () => (store) => {
+        dispatchRef.current = store.dispatch;
 
-    const middleware = () => (/* store */) => (next) => (action) => {
-        const newState = next(action);
-
-        nextState(newState);
-        nextAction(action);
+        return (next) => (action) => {
+            const newState = next(action);
+            nextState(newState);
+            nextAction(action);
+        };
     };
 
-    const { dispatch, ...rest } = useRequest([middleware]);
-    dispatchRef.current = dispatch;
-
-    return {
-        dispatch,
-        nextEpic,
-        ...rest,
-    };
+    return middleware;
 };
