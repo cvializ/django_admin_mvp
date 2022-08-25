@@ -17,7 +17,7 @@ export const useReactObservableMiddleware = (sideEffects = []) => {
         epic$.subscribe((action) => dispatchRef.current(action));
     });
 
-    const middleware = () => (store) => {
+    const middleware = (store) => {
         dispatchRef.current = store.dispatch;
 
         return (next) => (action) => {

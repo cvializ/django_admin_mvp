@@ -18,7 +18,7 @@ export const useMiddlewareReducer = (reducer, initialState, middlewares = []) =>
             return expectedNextState;
         };
 
-        middlewares.forEach((middleware) => middleware()(store)(next)(action));
+        middlewares.forEach((middleware) => middleware(store)(next)(action));
     });
 
     return [state, dispatch];
