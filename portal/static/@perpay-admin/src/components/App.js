@@ -4,6 +4,7 @@ import { html } from '/@perpay-admin/dependencies/htm';
 import { ComponentContainer } from '/@perpay-admin/src/components/ComponentContainer';
 import { useStyles } from '/@perpay-admin/src/hooks/useStyles';
 import { css } from '/@perpay-admin/src/lib/css';
+import { useConstCallback } from '/@perpay-admin/src/hooks/useConstCallback';
 
 const Header = ({ name }) => html`<h1>${name} List</h1>`;
 
@@ -17,12 +18,14 @@ export const App = () => {
         }
     `);
 
+    const onChangeCb = useConstCallback((e) => setColor(e.target.value));
+
     return html`
         <div className="${styles.app}">
             <${Header} name="Color (${color})" />
             <${ComponentContainer} color=${color} />
             <${ComponentContainer} color="rebeccapurple" />
-            <input value=${color} onChange=${(e) => setColor(e.target.value)} />
+            <input value=${color} onChange=${onChangeCb} />
             <${Footer}>footer content over there</${Footer}>
         </div>
     `;

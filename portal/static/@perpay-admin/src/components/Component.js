@@ -26,10 +26,10 @@ export const Component = ({
     return html`
         <div className="${styles.component}">
             <p>Hello worlds</p>
-            <button onClick=${() => onClickRequest()}>Start request</button>
-            <button onClick=${() => onClickSuccess()}>Success request</button>
-            <button onClick=${() => onClickError()}>Error request</button>
-            <button onClick=${() => onClickReset()}>Reset request</button>
+            <button onClick=${onClickRequest}>Start request</button>
+            <button onClick=${onClickSuccess}>Success request</button>
+            <button onClick=${onClickError}>Error request</button>
+            <button onClick=${onClickReset}>Reset request</button>
             <p>Loading: ${loading ? 'Loading' : ''}</p>
             <p>Data: ${data}</p>
             <p>Errors: ${errors.message && errors.message[0]}</p>
