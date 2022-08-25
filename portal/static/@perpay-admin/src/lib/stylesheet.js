@@ -1,4 +1,4 @@
-import '/@perpay-admin/vendors/sanitizer-polyfill';
+import '/@perpay-admin/vendor/sanitizer-polyfill';
 
 // String.prototype.match returns an array if multiple values are found, and null
 // if no matches are found. This function normalizes the value to always be an array.
