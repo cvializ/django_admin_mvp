@@ -24,9 +24,6 @@ export const useReactObservableRequest = (sideEffects = []) => {
     dispatchRef.current = dispatch;
 
     return {
-        action$,
-        state$,
-
         dispatch,
         ...rest,
     }
