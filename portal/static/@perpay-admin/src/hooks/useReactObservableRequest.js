@@ -1,6 +1,6 @@
 import { getActionObservable, getStateObservable } from '/@perpay-admin/src/lib/react-observable';
 import { useEffect, useMemo, useRef } from '/@perpay-admin/dependencies/react';
-import { merge, mergeAll } from '/@perpay-admin/dependencies/rxjs';
+import { defer, merge, mergeAll } from '/@perpay-admin/dependencies/rxjs';
 import { useRequest } from '/@perpay-admin/src/hooks/useRequest';
 
 export const useReactObservableRequest = (sideEffects = []) => {
@@ -9,7 +9,7 @@ export const useReactObservableRequest = (sideEffects = []) => {
     const dispatchRef = useRef(() => {});
 
     useEffect(() => {
-        const epic$ = merge(sideEffects.map((sideEffect) => sideEffect(action$, state$))).pipe(mergeAll());
+        const epic$ = defer(() => merge(sideEffects.map((sideEffect) => sideEffect(action$, state$))).pipe(mergeAll()));
         epic$.subscribe((action) => dispatchRef.current(action));
     }, []);
 
