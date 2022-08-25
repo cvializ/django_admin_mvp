@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "/@perpay-admin/src/*": ["./src/*"],
+            "/@perpay-web/dependencies/*": ["./dependencies/*"],
+            "/@perpay-web/vendors/*": ["./vendors/*"],
+        },
+    },
+    "include": ["src/**/*", "dependencies/**/*"],
+    "exclude": ["node_modules", "**/node_modules/*"]
+}

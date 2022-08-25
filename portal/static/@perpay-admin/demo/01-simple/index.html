@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>htm Demo</title>
+<link rel="stylesheet" href="/@perpay-admin/style/index.css" />
+<!--
+    The rxjs bundle does not support running in a JS Module context
+    so it must be imported as a regular script for now.
+-->
+<script src="/@perpay-admin/node_modules/rxjs/dist/bundles/rxjs.umd.js"></script>
+<script type="module">
+    import { useState } from '/@perpay-admin/dependencies/react';
+    import { createRoot } from '/@perpay-admin/dependencies/react-dom';
+    import { html } from '/@perpay-admin/dependencies/htm';
+
+    import { ComponentContainer } from '/@perpay-admin/src/components/ComponentContainer';
+    import { useStyles } from '/@perpay-admin/src/hooks/useStyles';
+    import { css } from '/@perpay-admin/src/lib/css';
+
+    const App = ({ page }) => {
+        const [ color, setColor ] = useState('');
+        const { styles } = useStyles('app', css`
+            h1 {
+                color: red;
+            }
+        `)
+
+        return html`
+            <div className="${styles.app}">
+                <${Header} name="ToDo's (${color})" />
+                <${ComponentContainer} color=${color} />
+                <${ComponentContainer} color="rebeccapurple" />
+                <input value=${color} onChange=${e => setColor(e.target.value)} />
+                <${Footer}>footer content over there</${Footer}>
+            </div>
+        `;
+    }
+
+    const Header = ({ name }) => html`<h1>${name} List</h1>`
+
+    const Footer = props => html`<footer ...${props} />`
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(html`<${App} page="All" />`);
+</script>
+<div id="root"></div>
+</html>
