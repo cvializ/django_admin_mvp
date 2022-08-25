@@ -1,12 +1,9 @@
-
-
 import { useEffect, useRef } from '/@perpay-admin/dependencies/react';
 
 import { useInitialValue } from '/@perpay-admin/src/hooks/useInitialValue';
 import { useRunOnce } from '/@perpay-admin/src/hooks/useRunOnce';
 import { useInstanceIdentifier } from '/@perpay-admin/src/hooks/useInstanceIdentifier';
 import { getClassNames, stylesheetFromTemplate, scopeStyleSheet } from '/@perpay-admin/src/lib/stylesheet';
-
 
 export const useStyles = (scope, css) => {
     const classMappingRef = useRef({});
@@ -31,7 +28,7 @@ export const useStyles = (scope, css) => {
         }
 
         const uniqueClassNames = [...new Set(classNames)];
-        const classMapping = Object.fromEntries(uniqueClassNames.map(c => {
+        const classMapping = Object.fromEntries(uniqueClassNames.map((c) => {
             const key = c;
             const value = c === initialScope ? `${c} ${c}__${uniqueId}` : c;
 
@@ -65,5 +62,5 @@ export const useStyles = (scope, css) => {
 
     return {
         styles: classMappingRef.current,
-    }
+    };
 };

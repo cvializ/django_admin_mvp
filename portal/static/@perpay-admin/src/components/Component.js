@@ -35,4 +35,4 @@ export const Component = ({
             <p>Errors: ${errors.message && errors.message[0]}</p>
         </div>
     `;
-}
+};

@@ -4,15 +4,13 @@ import { html } from '/@perpay-admin/dependencies/htm';
 import { mergeMap } from '/@perpay-admin/dependencies/rxjs-operators';
 import { handleError, ofType } from '/@perpay-admin/src/lib/react-observable';
 
-
 export const ComponentContainer = ({ ...rest }) => {
-    const epic = (action$) =>
-        action$.pipe(
-            ofType(dataRequest().type),
-            mergeMap(() => fetch('/api/users').then(response => response.text())),
-            mergeMap((text) => [dataSuccess(text)]),
-            handleError((error) => [dataError(error)]),
-        );
+    const epic = (action$) => action$.pipe(
+        ofType(dataRequest().type),
+        mergeMap(() => fetch('/api/users').then((response) => response.text())),
+        mergeMap((text) => [dataSuccess(text)]),
+        handleError((error) => [dataError(error)]),
+    );
 
     const {
         dispatch,
@@ -37,4 +35,4 @@ export const ComponentContainer = ({ ...rest }) => {
             ...${rest}
         />
     `;
-}
+};

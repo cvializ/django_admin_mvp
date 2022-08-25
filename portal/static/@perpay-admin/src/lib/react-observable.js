@@ -19,12 +19,12 @@ import {
 
 export const getStateObservable = (initialState) => {
     const stateSubject$ = new BehaviorSubject(initialState);
-    const state$ = stateSubject$.asObservable().pipe(distinctUntilChanged())
+    const state$ = stateSubject$.asObservable().pipe(distinctUntilChanged());
     return {
         nextState: (state) => stateSubject$.next(state),
         state$,
     };
-}
+};
 
 export const getActionObservable = () => {
     const actionSubject$ = new Subject();
@@ -34,23 +34,19 @@ export const getActionObservable = () => {
         nextAction: (action) => actionSubject$.next(action),
         action$,
     };
-}
-
-export const ofType = (outerActionType) => {
-    return filter(innerAction => innerAction.type === outerActionType);
 };
 
-export const handleError = (cb, source$) => {
-    return catchError((error) => {
-        const result = cb(error);
+export const ofType = (outerActionType) => filter((innerAction) => innerAction.type === outerActionType);
 
-        let errorAction$;
-        if (result instanceof Observable) {
-            errorAction$ = result;
-        } else {
-            errorAction$ = Array.isArray(result) ? from(result) : of(result);
-        }
+export const handleError = (cb, source$) => catchError((error) => {
+    const result = cb(error);
 
-        return concat(result, source$);
-    })
-}
+    let errorAction$;
+    if (result instanceof Observable) {
+        errorAction$ = result;
+    } else {
+        errorAction$ = Array.isArray(result) ? from(result) : of(result);
+    }
+
+    return concat(result, source$);
+});

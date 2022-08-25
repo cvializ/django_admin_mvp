@@ -19,28 +19,28 @@ export const getInitialState = (optInitialValue) => ({
 
 const requestReducer = (state = getInitialState(), action = {}) => {
     switch (action.type) {
-        case REQUEST_ACTION:
-            return {
-                ...state,
-                requestState: LOADING_STATE,
-                errors: {},
-            };
-        case ERROR_ACTION:
-            return {
-                ...state,
-                requestState: ERROR_STATE,
-                errors: action.payload,
-            };
-        case SUCCESS_ACTION:
-            return {
-                ...state,
-                requestState: SUCCESS_STATE,
-                value: action.payload,
-            };
-        case RESET_ACTION:
-            return getInitialState();
-        default:
-            return state;
+    case REQUEST_ACTION:
+        return {
+            ...state,
+            requestState: LOADING_STATE,
+            errors: {},
+        };
+    case ERROR_ACTION:
+        return {
+            ...state,
+            requestState: ERROR_STATE,
+            errors: action.payload,
+        };
+    case SUCCESS_ACTION:
+        return {
+            ...state,
+            requestState: SUCCESS_STATE,
+            value: action.payload,
+        };
+    case RESET_ACTION:
+        return getInitialState();
+    default:
+        return state;
     }
 };
 
@@ -71,7 +71,7 @@ const dataReset = () => ({
 });
 
 export const useRequest = (middlewares = []) => {
-    const [ state, dispatch ] = useMiddlewareReducer(requestReducer, getInitialState(), middlewares);
+    const [state, dispatch] = useMiddlewareReducer(requestReducer, getInitialState(), middlewares);
 
     return {
         dispatch,
@@ -86,5 +86,5 @@ export const useRequest = (middlewares = []) => {
         getIsLoadingOrUnrequested: () => getIsLoadingOrUnrequested(state),
         getData: () => getData(state),
         getErrors: () => getErrors(state),
-    }
+    };
 };

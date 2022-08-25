@@ -1,15 +1,15 @@
-import '/@perpay-admin/vendors/sanitizer-polyfill'
+import '/@perpay-admin/vendors/sanitizer-polyfill';
 
 // String.prototype.match returns an array if multiple values are found, and null
 // if no matches are found. This function normalizes the value to always be an array.
 const getMatches = (regex, value) => (value.match(regex) || []);
 
 // This is a not-very-good way of extracting classnames from CSS selector text.
-const classNameRegex = /\.[^., \\*@#>\[\]{}]+/g
+const classNameRegex = /\.[^., \\*@#>\[\]{}]+/g;
 
 export const getClassNames = (ruleText) => {
     const matches = getMatches(classNameRegex, ruleText);
-    return matches.map(c => c.replace('.', ''));
+    return matches.map((c) => c.replace('.', ''));
 };
 
 const sanitizer = new globalThis.Sanitizer();
@@ -19,7 +19,7 @@ export const stylesheetFromTemplate = (css) => {
     // Sanitizers help prevent untrusted user data from being rendered into the document
     // and causing cross-site scripting (XSS) vulnerabilities.
     // https://github.com/mozilla/sanitizer-polyfill
-    const style = sanitizer.sanitizeFor('style', css)
+    const style = sanitizer.sanitizeFor('style', css);
 
     // The sheet property on style elements is only populated after the
     // element is inserted into a document. So we must create a temporary
@@ -29,11 +29,9 @@ export const stylesheetFromTemplate = (css) => {
     tempDoc.body.appendChild(style);
 
     return style.sheet;
-}
-
-export const createEmptyStylesheet = () => {
-    return new CSSStyleSheet();
 };
+
+export const createEmptyStylesheet = () => new CSSStyleSheet();
 
 let rootStyleNode = null;
 
@@ -67,7 +65,7 @@ export const scopeStyleSheet = (scope, specifier, sheet) => {
         if (!rule.selectorText.includes(`.${scope}`)) {
             rule.selectorText = `.${specifier} ${rule.selectorText}`;
         } else {
-            rule.selectorText = rule.selectorText.replace(`.${scope}`, `.${scope}.${specifier}`)
+            rule.selectorText = rule.selectorText.replace(`.${scope}`, `.${scope}.${specifier}`);
         }
 
         newStyle.innerHTML += rule.cssText;
@@ -75,7 +73,6 @@ export const scopeStyleSheet = (scope, specifier, sheet) => {
 
     return newStyle;
 };
-
 
 // A collection of rules. Can be rendered to a style tag
 class StyleSheet {
@@ -86,7 +83,7 @@ class StyleSheet {
     render() {
         const style = document.createElement('style');
 
-        this.rules.forEach(rule => {
+        this.rules.forEach((rule) => {
             style.innerText += rule.cssText;
         });
 

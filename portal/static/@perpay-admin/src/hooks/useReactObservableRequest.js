@@ -7,7 +7,7 @@ import { useMount } from '/@perpay-admin/src/hooks/useMount';
 
 export const useReactObservableRequest = (sideEffects = []) => {
     const { action$, nextAction } = useInitialValue(() => getActionObservable());
-    const { state$, nextState } =  useInitialValue(() => getStateObservable());
+    const { state$, nextState } = useInitialValue(() => getStateObservable());
     const dispatchRef = useRef(() => {});
 
     useMount(() => {
@@ -15,18 +15,18 @@ export const useReactObservableRequest = (sideEffects = []) => {
         epic$.subscribe((action) => dispatchRef.current(action));
     });
 
-    const middleware = () => store => next => action => {
+    const middleware = () => (store) => (next) => (action) => {
         const newState = next(action);
 
         nextState(newState);
         nextAction(action);
     };
 
-    const { dispatch, ...rest } = useRequest([middleware])
+    const { dispatch, ...rest } = useRequest([middleware]);
     dispatchRef.current = dispatch;
 
     return {
         dispatch,
         ...rest,
-    }
-}
+    };
+};
