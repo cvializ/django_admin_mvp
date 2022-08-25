@@ -7,14 +7,6 @@
     so it must be imported as a regular script for now.
 -->
 <script src="/@perpay-admin/node_modules/rxjs/dist/bundles/rxjs.umd.js"></script>
-<script type="module">
-    import React from '/@perpay-admin/dependencies/react';
-    import { createRoot } from '/@perpay-admin/dependencies/react-dom';
-    import { html } from '/@perpay-admin/dependencies/htm';
-    import { App } from '/@perpay-admin/src/components/App';
-
-    const root = createRoot(document.getElementById('root'));
-    root.render(html`<${App} />`);
-</script>
+<script type="module" src="/@perpay-admin/src/index.js"></script>
 <div id="root"></div>
 </html>
