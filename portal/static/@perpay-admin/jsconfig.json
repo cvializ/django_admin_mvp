@@ -4,7 +4,7 @@
         "paths": {
             "/@perpay-admin/src/*": ["./src/*"],
             "/@perpay-admin/dependencies/*": ["./dependencies/*"],
-            "/@perpay-admin/vendors/*": ["./vendors/*"],
+            "/@perpay-admin/vendor/*": ["vendor/*"],
             "/@perpay-admin/node_modules/*": ["./node_modules/*"]
         }
     },
