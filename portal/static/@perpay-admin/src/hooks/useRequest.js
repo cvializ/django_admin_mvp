@@ -13,7 +13,7 @@ const RESET_ACTION = 'RESET_ACTION';
 
 export const getInitialState = (optInitialValue) => ({
     requestState: UNREQUESTED_STATE,
-    value: optInitialValue ? { ...optInitialValue } : {},
+    value: optInitialValue,
     errors: {},
 });
 

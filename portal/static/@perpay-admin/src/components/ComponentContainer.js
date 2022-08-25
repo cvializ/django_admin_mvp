@@ -3,20 +3,18 @@ import { useReactObservableRequest } from '/@perpay-admin/src/hooks/useReactObse
 import { html } from '/@perpay-admin/dependencies/htm';
 import { mergeMap } from '/@perpay-admin/dependencies/rxjs-operators';
 import { handleError, ofType } from '/@perpay-admin/src/lib/react-observable';
-import { useCallback, useEffect } from '/@perpay-admin/dependencies/react';
-import { useRequest } from '/@perpay-admin/src/hooks/useRequest';
-import { switchMap } from '/@perpay-admin/dependencies/rxjs';
+
 
 export const ComponentContainer = ({ ...rest }) => {
     const epic = (action$) =>
         action$.pipe(
             ofType(dataRequest().type),
-            switchMap(() => fetch('./index.html').then(response => response.text())),
-            mergeMap((x) => [dataSuccess({ foo: x })]),
-            handleError((error) => [dataError(error)]),
+            mergeMap(() => fetch('./index.html').then(response => response.text())),
+            mergeMap((text) => [dataSuccess(text)]),
+            handleError((error) => {
+                return [dataError(error)];
+            }),
         );
-
-    const { epic$, epicMiddleware } = useReactObservableRequest([epic]);
 
     const {
         dispatch,
@@ -27,16 +25,12 @@ export const ComponentContainer = ({ ...rest }) => {
         getIsLoading,
         getData,
         getErrors,
-    } = useRequest([epicMiddleware]);
-
-    useEffect(() => {
-        epic$.subscribe(dispatch);
-    }, []);
+    } = useReactObservableRequest([epic]);
 
     return html`
         <${Component}
             onClickRequest=${() => dispatch(dataRequest())}
-            onClickSuccess=${() => dispatch(dataSuccess({ foo: 'Bar' }))}
+            onClickSuccess=${() => dispatch(dataSuccess('bar'))}
             onClickError=${() => dispatch(dataError({ message: ['Sad : ('] }))}
             onClickReset=${() => dispatch(dataReset())}
             data=${getData()}
