@@ -5,7 +5,7 @@ import '/@perpay-admin/vendor/sanitizer-polyfill';
 const getMatches = (regex, value) => (value.match(regex) || []);
 
 // This is a not-very-good way of extracting classnames from CSS selector text.
-const classNameRegex = /\.[^., \\*@#>[]{}]+/g;
+const classNameRegex = /\.-?[_a-zA-Z]+[_a-zA-Z0-9-]*\s*\{/;
 
 export const getClassNames = (ruleText) => {
     const matches = getMatches(classNameRegex, ruleText);

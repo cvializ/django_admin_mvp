@@ -20,17 +20,17 @@ export const useStyles = (scope, css) => {
         // new sheet
         const sheet = stylesheetFromTemplate(innerCss);
 
+        for (let i = 0; i < sheet.cssRules.length; i++) {
+            const rule = sheet.cssRules[i];
+            classNames = [...classNames, ...getClassNames(rule.selectorText)];
+        }
+
         // sheet scope
         const newStyle = scopeStyleSheet(
             innerInitialScope,
             `${innerInitialScope}__${uniqueId}`,
             sheet,
         );
-
-        for (let i = 0; i < sheet.cssRules.length; i++) {
-            const rule = sheet.cssRules[i];
-            classNames = [...classNames, ...getClassNames(rule.selectorText)];
-        }
 
         const uniqueClassNames = [...new Set(classNames)];
         const classMapping = Object.fromEntries(uniqueClassNames.map((c) => {
