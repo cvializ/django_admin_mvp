@@ -11,7 +11,7 @@ const Header = ({ name }) => html`<h1>${name} List</h1>`;
 const Footer = (props) => html`<footer ...${props} />`;
 
 export const App = () => {
-    const [color, setColor] = useState('');
+    const [color, setColor] = useState('red');
     const { styles } = useStyles('app', css`
         h1 {
             color: red;
@@ -22,7 +22,8 @@ export const App = () => {
 
     return html`
         <div className="${styles.app}">
-            <${Header} name="Color (${color})" />
+            <${Header} name="Welcome!" />
+            <p>The color of the component below should be ${color}</p>
             <${ComponentContainer} color=${color} />
             <${ComponentContainer} color="rebeccapurple" />
             <input value=${color} onChange=${onChangeCb} />

@@ -25,7 +25,7 @@ export const Component = ({
 
     return html`
         <div className="${styles.component}">
-            <p>Hello worlds</p>
+            <p>Hello world</p>
             <button onClick=${onClickRequest}>Start request</button>
             <button onClick=${onClickSuccess}>Success request</button>
             <button onClick=${onClickError}>Error request</button>
