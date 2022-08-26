@@ -25,7 +25,7 @@ export const ComponentContainer = ({ ...rest }) => {
         ofType(dataRequest().type),
         mergeMap(() => fetchUsers()),
         mergeMap((text) => [dataSuccess(text)]),
-        handleError((error) => [dataError(error)]),
+        handleError((error) => [dataError({ message: [error.message] })]),
     ));
     const middleware = useReactObservableMiddleware([epic]);
     const [state, dispatch] = useMiddlewareReducer(reducer, getInitialRequestState(), [middleware]);

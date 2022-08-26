@@ -1,10 +1,8 @@
 {
     "plugins": [
-      // ...
         "lit"
     ],
     "rules": {
-        // ...
         "lit/no-legacy-template-syntax": "error",
         "lit/no-template-arrow": "warn",
         "indent": ["error", 4],

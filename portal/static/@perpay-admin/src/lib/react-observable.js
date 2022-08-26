@@ -15,6 +15,7 @@ import {
 import {
     catchError,
     filter,
+    mergeAll,
 } from '/@perpay-admin/dependencies/rxjs-operators';
 
 export const getStateObservable = (initialState) => {
@@ -40,14 +41,14 @@ export const ofType = (outerActionType) => filter(
     (innerAction) => innerAction.type === outerActionType,
 );
 
-export const handleError = (cb, source$) => catchError((error) => {
+export const handleError = (cb) => catchError((error, source$) => {
     const result = cb(error);
 
     let errorAction$;
     if (result instanceof Observable) {
         errorAction$ = result;
     } else {
-        errorAction$ = Array.isArray(result) ? from(result) : of(result);
+        errorAction$ = of(result).pipe(mergeAll());
     }
 
     return concat(errorAction$, source$);
