@@ -1,4 +1,4 @@
-import { getActionObservable, getStateObservable } from '/@perpay-admin/src/lib/react-observable';
+import { getActionObservable, getStateObservable } from '../lib/reactObservable';
 import { useRef } from '/@perpay-admin/dependencies/react';
 import { defer, merge, mergeAll } from '/@perpay-admin/dependencies/rxjs';
 import { useInitialValue } from '/@perpay-admin/src/hooks/useInitialValue';

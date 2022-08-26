@@ -1,7 +1,7 @@
 import { Component } from '/@perpay-admin/src/components/Component';
 import { html } from '/@perpay-admin/dependencies/htm';
 import { mergeMap } from '/@perpay-admin/dependencies/rxjs-operators';
-import { handleError, ofType } from '/@perpay-admin/src/lib/react-observable';
+import { handleError, ofType } from '../lib/reactObservable';
 import { useConstCallback } from '/@perpay-admin/src/hooks/useConstCallback';
 import { getInitialRequestState, useRequest } from '/@perpay-admin/src/hooks/useRequest';
 import { useMiddlewareReducer } from '/@perpay-admin/src/hooks/useMiddlewareReducer';
