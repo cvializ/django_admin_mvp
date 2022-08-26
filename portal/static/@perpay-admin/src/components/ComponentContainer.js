@@ -1,50 +1,25 @@
 import { Component } from '/@perpay-admin/src/components/Component';
-import { html } from '/@perpay-admin/dependencies/htm';
-import { mergeMap } from '/@perpay-admin/dependencies/rxjs-operators';
-import { handleError, ofType } from '../lib/reactObservable';
-import { useConstCallback } from '/@perpay-admin/src/hooks/useConstCallback';
-import { getInitialRequestState, useRequest } from '/@perpay-admin/src/hooks/useRequest';
-import { useMiddlewareReducer } from '/@perpay-admin/src/hooks/useMiddlewareReducer';
-import { useReactObservableMiddleware } from '/@perpay-admin/src/hooks/useReactObservableMiddleware';
+import { fetchUsersDataModule } from '/@perpay-admin/src/dataModules/fetchUsers';
+import { fetchUsers, fetchUsersError, fetchUsersReset, fetchUsersSuccess } from '/@perpay-admin/src/actions/dataModules/fetchUsers';
+import { connectDataModule } from '/@perpay-admin/src/lib/connectDataModule';
 
-const fetchUsers = () => globalThis.fetch('/api/users').then((response) => response.text());
+const mapDataModuleStateToProps = (state) => ({
+    data: fetchUsersDataModule.getData(state).text,
+    errors: fetchUsersDataModule.getErrors(state),
+    loading: fetchUsersDataModule.getIsLoading(state),
+});
 
-export const ComponentContainer = ({ ...rest }) => {
-    const {
-        reducer,
-        dataRequest,
-        dataError,
-        dataSuccess,
-        dataReset,
-        getIsLoading,
-        getData,
-        getErrors,
-    } = useRequest();
+const mapDataModuleDispatchToProps = (dispatch) => ({
+    onClickRequest: () => dispatch(fetchUsers()),
+    onClickSuccess: () => dispatch(fetchUsersSuccess({ text: 'bar' })),
+    onClickError: () => dispatch(fetchUsersError({ message: ['Sad : (']})),
+    onClickReset: () => dispatch(fetchUsersReset()),
+});
 
-    const epic = useConstCallback((action$) => action$.pipe(
-        ofType(dataRequest().type),
-        mergeMap(() => fetchUsers()),
-        mergeMap((text) => [dataSuccess(text)]),
-        handleError((error) => [dataError({ message: [error.message] })]),
-    ));
-    const middleware = useReactObservableMiddleware([epic]);
-    const [state, dispatch] = useMiddlewareReducer(reducer, getInitialRequestState(), [middleware]);
+const ComponentContainer = connectDataModule(
+    fetchUsersDataModule,
+    mapDataModuleStateToProps,
+    mapDataModuleDispatchToProps,
+)(Component);
 
-    const onClickRequestCb = useConstCallback(() => dispatch(dataRequest()));
-    const onClickSuccessCb = useConstCallback(() => dispatch(dataSuccess('bar')));
-    const onClickErrorCb = useConstCallback(() => dispatch(dataError({ message: ['Sad : ('] })));
-    const onClickResetCb = useConstCallback(() => dispatch(dataReset()));
-
-    return html`
-        <${Component}
-            onClickRequest=${onClickRequestCb}
-            onClickSuccess=${onClickSuccessCb}
-            onClickError=${onClickErrorCb}
-            onClickReset=${onClickResetCb}
-            data=${getData(state)}
-            loading=${getIsLoading(state)}
-            errors=${getErrors(state)}
-            ...${rest}
-        />
-    `;
-};
+export default ComponentContainer;

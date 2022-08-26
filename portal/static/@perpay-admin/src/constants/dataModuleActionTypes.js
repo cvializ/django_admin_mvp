@@ -1,0 +1,5 @@
+
+export const REQUEST_ACTION = 'REQUEST_ACTION';
+export const ERROR_ACTION = 'ERROR_ACTION';
+export const SUCCESS_ACTION = 'SUCCESS_ACTION';
+export const RESET_ACTION = 'RESET_ACTION';

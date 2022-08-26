@@ -1,3 +1,4 @@
+import { useContext } from "/@perpay-admin/dependencies/react";
 
 export const useContextOrError = (Context) => {
     const context = useContext(Context);

@@ -1,5 +1,5 @@
 
-import htm from '/@perpay-admin/dependencies/htm';
+import { html } from '/@perpay-admin/dependencies/htm';
 import { useReactRootStoreDispatch } from '/@perpay-admin/src/hooks/useReactRootStoreDispatch';
 import { useReactRootStoreSelector } from '/@perpay-admin/src/hooks/useReactRootStoreSelector';
 
@@ -31,7 +31,7 @@ const withDataModule =
             mapDataModuleDispatchToProps(dispatch, props),
             props
         );
-        return htm  `<${Component} ...${mergedProps} />`;
+        return html`<${Component} ...${mergedProps} />`;
     };
 
 export const connectDataModule =

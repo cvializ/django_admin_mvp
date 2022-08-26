@@ -1,24 +1,24 @@
 import {
-    fetchCardActivation,
-    fetchCardActivationSuccess,
-    fetchCardActivationError,
-    fetchCardActivationReset,
-} from '/@perpay-admin/actions/ui/cardActivation';
-import { fetchCardActivation as fetchCardActivationEpic } from '/@perpay-admin/fintech/epics/ui/cardActivation';
-import { createDataModule } from './utils/createDataModule';
+    fetchUsers,
+    fetchUsersSuccess,
+    fetchUsersError,
+    fetchUsersReset,
+} from '/@perpay-admin/src/actions/dataModules/fetchUsers';
+import { fetchUsers as fetchUsersEpic } from '/@perpay-admin/src/epics/dataModules/fetchUsers';
+import { createDataModule } from '/@perpay-admin/src/lib/createDataModule';
 
-const FetchCardActivationDataModule = createDataModule({
-    dataRequest: fetchCardActivation,
-    dataSuccess: fetchCardActivationSuccess,
-    dataError: fetchCardActivationError,
-    dataReset: fetchCardActivationReset,
-    epic: fetchCardActivationEpic,
+const FetchUsersDataModule = createDataModule({
+    dataRequest: fetchUsers,
+    dataSuccess: fetchUsersSuccess,
+    dataError: fetchUsersError,
+    dataReset: fetchUsersReset,
+    epic: fetchUsersEpic,
 });
 
-const getRoot = (state) => state.dataModules.fetchCardActivation;
+const getRoot = (state) => state.dataModules.fetchUsers;
 const initialValue = {};
 
-export const fetchCardActivationDataModule = FetchCardActivationDataModule({
+export const fetchUsersDataModule = FetchUsersDataModule({
     getRoot,
     initialValue,
 });

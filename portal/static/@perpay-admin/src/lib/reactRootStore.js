@@ -1,7 +1,6 @@
-import htm from "/@perpay-admin/dependencies/htm";
+import { html } from "/@perpay-admin/dependencies/htm";
 import { ReactRootStoreContext } from "/@perpay-admin/src/context/reactRootStore";
 import { useContextOrError } from "/@perpay-admin/src/hooks/useContextOrError";
-
 export const createStoreProvider = (Context) => {
     const ReactRootStoreProvider = ({ state, dispatch, children }) => {
         const contextValue = {
@@ -9,17 +8,11 @@ export const createStoreProvider = (Context) => {
             dispatch,
         };
 
-        return htm  `
+        return html`
             <${Context.Provider} value=${contextValue}>
                 ${children}
             </${Context.Provider}>
         `;
-    };
-
-    ReactRootStoreProvider.propTypes = {
-        state: PropTypes.any.isRequired,
-        dispatch: PropTypes.func.isRequried,
-        children: PropTypes.node.isRequired,
     };
 
     return ReactRootStoreProvider;
